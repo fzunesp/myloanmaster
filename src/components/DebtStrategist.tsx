@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Card, Title, Text, Slider, Group, Stack, Box, ActionIcon, Flex, Button, TextInput, NumberInput, SegmentedControl, Table, Badge, ScrollArea } from '@mantine/core';
+import { Card, Title, Text, Slider, Group, Stack, Box, ActionIcon, Flex, Button, TextInput, NumberInput, SegmentedControl, Table, ScrollArea } from '@mantine/core';
 import { calculateDebtPayoffTimeline, type DebtItem, type DebtPayoffLog } from '../utils/financialMath';
 import { takeScreenshot } from '../utils/exportUtils';
 import { Camera, Plus, Trash2 } from 'lucide-react';

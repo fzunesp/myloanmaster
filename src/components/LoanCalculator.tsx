@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Card, Title, Text, Slider, Group, Stack, RingProgress, Center, Flex, Grid, Paper, Box, ActionIcon } from '@mantine/core';
+import { Card, Title, Text, Slider, Group, Stack, RingProgress, Center, Flex, Grid, Box, ActionIcon } from '@mantine/core';
 import { calculateAmortizedLoan, generateAmortizationSchedule } from '../utils/financialMath';
 import type { AmortizationRow } from '../utils/financialMath';
 import AmortizationChart from './AmortizationChart';
@@ -42,7 +42,7 @@ export default function LoanCalculator() {
           </ActionIcon>
         </Flex>
         
-        <Grid gutter="xl">
+        <Grid>
           <Grid.Col span={{ base: 12, md: 6 }}>
             <Stack gap="xl" mr={{ md: 'xl' }}>
               

@@ -128,7 +128,6 @@ export function calculateDebtPayoffTimeline(debts: DebtItem[], extraPayment: num
     // At the start of the month, any debt that is already at 0 stops having a required minimum payment.
     // So the base available cash is the extra payment PLUS the normal minimum payments of any still-active loans.
     // If a loan is paid off, its old minimum payment is NOT lost! It naturally rolls over into the availableCash pool for other debts!
-    const activeMinimums = currentDebts.filter(d => d.balance > 0).reduce((acc, d) => acc + d.minimumPayment, 0);
     
     // However, the TRADITIONAL Snowball/Avalanche method assumes the user always budgets the SAME total amount every single month until debt-free.
     // Total budget = sum of ALL ORIGINAL minimum payments + extraPayment.
