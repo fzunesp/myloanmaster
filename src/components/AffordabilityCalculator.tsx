@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useMemo } from 'react';
 import { Card, Title, Text, Slider, Group, Stack, RingProgress, Center, Box, ActionIcon, Flex } from '@mantine/core';
 import { calculateMaxHousePrice } from '../utils/financialMath';
 import { takeScreenshot } from '../utils/exportUtils';
@@ -10,11 +10,8 @@ export default function AffordabilityCalculator() {
   const [loanTerm, setLoanTerm] = useState(30);
   const [interestRate, setInterestRate] = useState(6.85);
 
-  const [maxPrice, setMaxPrice] = useState(0);
-
-  useEffect(() => {
-    const price = calculateMaxHousePrice(monthlyBudget, downPayment, interestRate, loanTerm);
-    setMaxPrice(price);
+  const maxPrice = useMemo(() => {
+    return calculateMaxHousePrice(monthlyBudget, downPayment, interestRate, loanTerm);
   }, [monthlyBudget, downPayment, loanTerm, interestRate]);
 
   const downPaymentPercent = maxPrice > 0 ? ((downPayment / maxPrice) * 100).toFixed(1) : 0;

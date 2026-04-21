@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState, useMemo } from 'react';
 import { Card, Title, Text, Slider, Group, Stack, RingProgress, Center, Flex, Grid, Box, ActionIcon } from '@mantine/core';
 import { calculateAmortizedLoan, generateAmortizationSchedule } from '../utils/financialMath';
-import type { AmortizationRow } from '../utils/financialMath';
+
 import AmortizationChart from './AmortizationChart';
 import { takeScreenshot } from '../utils/exportUtils';
 import { Camera } from 'lucide-react';
@@ -13,19 +13,15 @@ export default function LoanCalculator() {
   const [interestRate, setInterestRate] = useState(6.85);
 
   const principal = Math.max(0, housePrice - downPayment);
-  const [emi, setEmi] = useState(0);
-  const [totalInterest, setTotalInterest] = useState(0);
-  const [totalPayment, setTotalPayment] = useState(0);
-  const [schedule, setSchedule] = useState<AmortizationRow[]>([]);
-
-  useEffect(() => {
+  const { emi, totalInterest, totalPayment, schedule } = useMemo(() => {
     const { payment, totalInterest, totalPayment } = calculateAmortizedLoan(principal, interestRate, loanTerm * 12);
-    setEmi(payment);
-    setTotalInterest(totalInterest);
-    setTotalPayment(totalPayment);
-    // Recalculating schedule only when needed
-    setSchedule(generateAmortizationSchedule(principal, interestRate, loanTerm * 12, payment));
-  }, [housePrice, downPayment, loanTerm, interestRate, principal]);
+    return {
+      emi: payment,
+      totalInterest,
+      totalPayment,
+      schedule: generateAmortizationSchedule(principal, interestRate, loanTerm * 12, payment)
+    };
+  }, [principal, interestRate, loanTerm]);
 
   const downPaymentPercent = housePrice > 0 ? ((downPayment / housePrice) * 100).toFixed(0) : 0;
   

@@ -111,7 +111,7 @@ export interface DebtPayoffLog {
 }
 
 export function calculateDebtPayoffTimeline(debts: DebtItem[], extraPayment: number, strategy: 'snowball' | 'avalanche'): DebtPayoffLog[] {
-  let currentDebts = debts.map(d => ({ ...d }));
+  const currentDebts = debts.map(d => ({ ...d }));
   if (strategy === 'snowball') {
       currentDebts.sort((a,b) => a.balance - b.balance);
   } else {
@@ -133,29 +133,29 @@ export function calculateDebtPayoffTimeline(debts: DebtItem[], extraPayment: num
     // Total budget = sum of ALL ORIGINAL minimum payments + extraPayment.
     // Let's use the true snowball total budget (Original Minimums + Extra).
     const originalTotalMinimums = debts.reduce((acc, d) => acc + d.minimumPayment, 0);
-    let totalMonthlyBudget = originalTotalMinimums + extraPayment;
+    const totalMonthlyBudget = originalTotalMinimums + extraPayment;
     let availableCash = totalMonthlyBudget;
     
     // Apply interest first
-    for(let d of currentDebts) {
+    for(const d of currentDebts) {
       if(d.balance > 0) {
          d.balance += d.balance * (d.interestRate / 100 / 12);
       }
     }
     
     // First, satisfy everyone's minimum payment
-    for(let d of currentDebts) {
+    for(const d of currentDebts) {
       if(d.balance > 0) {
-        let payment = Math.min(d.balance, d.minimumPayment);
+        const payment = Math.min(d.balance, d.minimumPayment);
         d.balance -= payment;
         availableCash -= payment;
       }
     }
     
     // Now apply ANY leftover cash (availableCash) to the target debt based on strategy order
-    for(let d of currentDebts) {
+    for(const d of currentDebts) {
       if(d.balance > 0 && availableCash > 0) {
-         let payment = Math.min(d.balance, availableCash);
+         const payment = Math.min(d.balance, availableCash);
          d.balance -= payment;
          availableCash -= payment;
       }

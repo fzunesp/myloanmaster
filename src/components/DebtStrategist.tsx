@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useMemo } from 'react';
 import { Card, Title, Text, Slider, Group, Stack, Box, ActionIcon, Flex, Button, TextInput, NumberInput, SegmentedControl, Table, ScrollArea } from '@mantine/core';
-import { calculateDebtPayoffTimeline, type DebtItem, type DebtPayoffLog } from '../utils/financialMath';
+import { calculateDebtPayoffTimeline, type DebtItem } from '../utils/financialMath';
 import { takeScreenshot } from '../utils/exportUtils';
 import { Camera, Plus, Trash2 } from 'lucide-react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
@@ -13,18 +13,12 @@ export default function DebtStrategist() {
   const [extraPayment, setExtraPayment] = useState(250);
   const [strategy, setStrategy] = useState<'snowball' | 'avalanche'>('snowball');
 
-  const [timeline, setTimeline] = useState<DebtPayoffLog[]>([]);
-  const [monthsToFreedom, setMonthsToFreedom] = useState(0);
-
-  useEffect(() => {
+  const { timeline, monthsToFreedom } = useMemo(() => {
     if (debts.length > 0) {
       const data = calculateDebtPayoffTimeline(debts, extraPayment, strategy);
-      setTimeline(data);
-      setMonthsToFreedom(data.length - 1); // last month where balance hit 0
-    } else {
-      setTimeline([]);
-      setMonthsToFreedom(0);
+      return { timeline: data, monthsToFreedom: data.length - 1 };
     }
+    return { timeline: [], monthsToFreedom: 0 };
   }, [debts, extraPayment, strategy]);
 
   const addDebt = () => {
@@ -35,7 +29,7 @@ export default function DebtStrategist() {
     setDebts(debts.filter(d => d.id !== id));
   };
 
-  const updateDebt = (id: string, field: keyof DebtItem, value: any) => {
+  const updateDebt = (id: string, field: keyof DebtItem, value: string | number) => {
     setDebts(debts.map(d => d.id === id ? { ...d, [field]: value } : d));
   };
 
@@ -64,7 +58,7 @@ export default function DebtStrategist() {
                 <Text size="sm" c="dimmed" mb={4}>Strategy</Text>
                 <SegmentedControl
                   value={strategy}
-                  onChange={(val) => setStrategy(val as any)}
+                  onChange={(val) => setStrategy(val as 'snowball' | 'avalanche')}
                   data={[
                     { label: 'Snowball (Smallest First)', value: 'snowball' },
                     { label: 'Avalanche (Highest Rate)', value: 'avalanche' }

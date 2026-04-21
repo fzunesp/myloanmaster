@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState, useMemo } from 'react';
 import { Card, Title, Text, Slider, Group, Stack, Box, ActionIcon, Flex } from '@mantine/core';
 import { calculateCompoundInterest } from '../utils/financialMath';
-import type { InvestmentRow } from '../utils/financialMath';
+
 import { takeScreenshot } from '../utils/exportUtils';
 import { Camera } from 'lucide-react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
@@ -12,20 +12,18 @@ export default function InvestmentVisualizer() {
   const [rate, setRate] = useState(8);
   const [years, setYears] = useState(25);
 
-  const [schedule, setSchedule] = useState<InvestmentRow[]>([]);
-  const [finalBalance, setFinalBalance] = useState(0);
-  const [totalContributions, setTotalContributions] = useState(0);
-  const [totalInterest, setTotalInterest] = useState(0);
-
-  useEffect(() => {
+  const { schedule, finalBalance, totalContributions, totalInterest } = useMemo(() => {
     const data = calculateCompoundInterest(initial, monthly, rate, years);
-    setSchedule(data);
     const last = data[data.length - 1];
     if(last) {
-      setFinalBalance(last.balance);
-      setTotalContributions(last.totalContributions);
-      setTotalInterest(last.totalInterest);
+      return {
+        schedule: data,
+        finalBalance: last.balance,
+        totalContributions: last.totalContributions,
+        totalInterest: last.totalInterest
+      };
     }
+    return { schedule: [], finalBalance: 0, totalContributions: 0, totalInterest: 0 };
   }, [initial, monthly, rate, years]);
 
   return (
