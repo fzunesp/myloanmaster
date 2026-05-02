@@ -1,4 +1,4 @@
-import { AppShell, Burger, Group, NavLink, Title, Box, Text, Divider, Anchor } from '@mantine/core';
+import { AppShell, Burger, Group, NavLink, Title, Box, Text, Divider, Anchor, Accordion } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useState } from 'react';
 import { Calculator, Percent, TrendingUp, PiggyBank, Home } from 'lucide-react';
@@ -8,6 +8,7 @@ import PercentageCalculator from './components/PercentageCalculator';
 import AffordabilityCalculator from './components/AffordabilityCalculator';
 import InvestmentVisualizer from './components/InvestmentVisualizer';
 import DebtStrategist from './components/DebtStrategist';
+import AdUnit from './components/AdUnit';
 
 export default function App() {
   const [opened, { toggle, close }] = useDisclosure();
@@ -41,41 +42,110 @@ export default function App() {
       </AppShell.Header>
 
       <AppShell.Navbar p="md" style={{ backgroundColor: '#11131a', borderRight: '1px solid #1f2330' }}>
-        <NavLink leftSection={<Home size={18} />} label="Mortgage Calculator" active={activeTab === 'mortgage'} onClick={() => { setActiveTab('mortgage'); close(); }} color="cyan" variant="light" style={{ borderRadius: 8, marginBottom: 8 }} />
-        <NavLink leftSection={<Calculator size={18} />} label="Affordability Planner" active={activeTab === 'affordability'} onClick={() => { setActiveTab('affordability'); close(); }} color="cyan" variant="light" style={{ borderRadius: 8, marginBottom: 8 }} />
-        <NavLink leftSection={<TrendingUp size={18} />} label="Investment Visualizer" active={activeTab === 'investment'} onClick={() => { setActiveTab('investment'); close(); }} color="cyan" variant="light" style={{ borderRadius: 8, marginBottom: 8 }} />
-        <NavLink leftSection={<PiggyBank size={18} />} label="Debt Strategist" active={activeTab === 'debt'} onClick={() => { setActiveTab('debt'); close(); }} color="cyan" variant="light" style={{ borderRadius: 8, marginBottom: 8 }} />
-        <NavLink leftSection={<Percent size={18} />} label="Quick Percentage" active={activeTab === 'percentage'} onClick={() => { setActiveTab('percentage'); close(); }} color="cyan" variant="light" style={{ borderRadius: 8, marginBottom: 8 }} />
+        <NavLink leftSection={<Home size={18} />} label="Mortgage Calculator" active={activeTab === 'mortgage'} onClick={() => { setActiveTab('mortgage'); close(); }} color="cyan" variant="light" style={{ borderRadius: 8, marginBottom: 8 }} aria-label="Mortgage Calculator" />
+        <NavLink leftSection={<Calculator size={18} />} label="Affordability Planner" active={activeTab === 'affordability'} onClick={() => { setActiveTab('affordability'); close(); }} color="cyan" variant="light" style={{ borderRadius: 8, marginBottom: 8 }} aria-label="Affordability Planner" />
+        <NavLink leftSection={<TrendingUp size={18} />} label="Investment Visualizer" active={activeTab === 'investment'} onClick={() => { setActiveTab('investment'); close(); }} color="cyan" variant="light" style={{ borderRadius: 8, marginBottom: 8 }} aria-label="Investment Visualizer" />
+        <NavLink leftSection={<PiggyBank size={18} />} label="Debt Strategist" active={activeTab === 'debt'} onClick={() => { setActiveTab('debt'); close(); }} color="cyan" variant="light" style={{ borderRadius: 8, marginBottom: 8 }} aria-label="Debt Strategist" />
+        <NavLink leftSection={<Percent size={18} />} label="Quick Percentage" active={activeTab === 'percentage'} onClick={() => { setActiveTab('percentage'); close(); }} color="cyan" variant="light" style={{ borderRadius: 8, marginBottom: 8 }} aria-label="Quick Percentage Calculator" />
       </AppShell.Navbar>
 
       <AppShell.Main>
         <Box maw={1000} mx="auto" pt="sm" px="md">
+
+          {/* Top Ad Banner */}
+          <AdUnit adSlot="1234567890" format="leaderboard" />
+
           {renderContent()}
 
+          {/* Middle Ad */}
+          <AdUnit adSlot="2345678901" format="rectangle" />
+
+          {/* About & SEO Content */}
           <Box mt={80} mb="xl" style={{ backgroundColor: 'transparent', padding: '2rem 1rem' }}>
-             <Title order={4} c="white" mb="sm">About MyLoanMaster</Title>
-             <Text size="sm" c="dimmed" mb="md" lh={1.6}>
-               MyLoanMaster is a premium, lightning-fast financial utility designed for professionals, students, and everyday use. Featuring 5 distinct tracking tools—including Mortgage, Affordability, Investment, and Debt Strategist—MyLoanMaster provides exact, mathematically precise financial projections in real-time. Our tool operates entirely locally in your browser for maximum privacy and performance.
-             </Text>
-             
-             <Divider my="xl" color="dark.4" />
-             
-             <Title order={4} c="white" mb="sm">Terms of Service</Title>
-             <Text size="sm" c="dimmed" mb="md" lh={1.6}>
-               By using MyLoanMaster ("the Tool"), you agree to these terms. The Tool is provided "as is" and "as available". While we strive for mathematical accuracy, we make no warranties regarding the absolute correctness of the calculations provided. You agree not to hold the creators liable for any errors, omissions, or damages arising from the use of this free utility. You may use the Tool for personal, educational, and commercial needs.
-             </Text>
-             
-             <Title order={4} c="white" mb="sm">Privacy Policy</Title>
-             <Text size="sm" c="dimmed" mb="xl" lh={1.6}>
-               Your privacy is important to us. MyLoanMaster processes all calculations locally within your browser using JavaScript; no personal financial data is transmitted to or stored on our servers. <strong>Third-Party Vendors:</strong> We may use Google AdSense to display advertisements. Google uses cookies to serve ads based on a user's prior visits to this website or other websites. You may opt out of personalized advertising by visiting Google's <Anchor href="https://www.google.com/settings/ads" target="_blank" c="cyan">Ads Settings</Anchor>.
-             </Text>
-             
-             <Text ta="center" size="xs" c="dimmed" mt={50} style={{ opacity: 0.6 }}>
-               © 2026 MyLoanMaster. All rights reserved.
-             </Text>
-             <Box ta="center" mt="md" style={{ opacity: 0.8 }}>
-               <img src="https://hits.sh/myloanmaster.com.svg?label=Visits&color=3b82f6&labelColor=0f172a" alt="Visits"/>
-             </Box>
+            <Title order={2} c="white" mb="sm">About MyLoanMaster</Title>
+            <Text size="sm" c="dimmed" mb="md" lh={1.6}>
+              MyLoanMaster is a premium, lightning-fast financial utility designed for professionals, students, and everyday use. Featuring 5 distinct tracking tools—including Mortgage, Affordability, Investment, and Debt Strategist—MyLoanMaster provides exact, mathematically precise financial projections in real-time. Our tool operates entirely locally in your browser for maximum privacy and performance.
+            </Text>
+            <Text size="sm" c="dimmed" mb="md" lh={1.6}>
+              Whether you're calculating monthly mortgage payments, planning how much house you can afford, visualizing investment growth with compound interest, strategizing debt payoff with avalanche or snowball methods, or quickly computing percentages—MyLoanMaster has you covered. All tools are free, require no signup, and process your data locally for complete privacy.
+            </Text>
+
+            <Divider my="xl" color="dark.4" />
+
+            {/* FAQ Section */}
+            <Title order={2} c="white" mb="lg">Frequently Asked Questions</Title>
+            <Accordion variant="separated" mb="xl" styles={{ label: { color: '#e2e8f0', fontWeight: 500 }, content: { color: '#94a3b8', lineHeight: 1.6 } }}>
+              <Accordion.Item value="mortgage-calc">
+                <Accordion.Control>How do I calculate my monthly mortgage payment?</Accordion.Control>
+                <Accordion.Panel>
+                  Use the Mortgage Calculator. Enter your loan amount, annual interest rate, and loan term in years. The tool instantly calculates your monthly payment using the standard amortization formula: M = P[r(1+r)^n]/[(1+r)^n-1]. You'll also see total interest paid and a full amortization schedule.
+                </Accordion.Panel>
+              </Accordion.Item>
+              <Accordion.Item value="affordability">
+                <Accordion.Control>How much house can I afford?</Accordion.Control>
+                <Accordion.Panel>
+                  Use the Affordability Planner. Input your annual income, monthly debts, and planned down payment. The calculator uses the 28/36 rule (housing costs should not exceed 28% of gross income, total debt should not exceed 36%) to estimate your maximum affordable home price.
+                </Accordion.Panel>
+              </Accordion.Item>
+              <Accordion.Item value="investment">
+                <Accordion.Control>How does compound interest affect my investments?</Accordion.Control>
+                <Accordion.Panel>
+                  The Investment Visualizer shows how your money grows over time with compound interest. Enter your initial investment, monthly contribution, and expected annual return rate to see detailed growth projections and interactive charts. The power of compounding means your earnings generate their own earnings over time.
+                </Accordion.Panel>
+              </Accordion.Item>
+              <Accordion.Item value="debt">
+                <Accordion.Control>What is the best way to pay off debt?</Accordion.Control>
+                <Accordion.Panel>
+                  The Debt Strategist compares two popular methods: the avalanche method (pay highest interest rate first to minimize total interest) and the snowball method (pay smallest balance first for psychological wins). Enter your debts with balances, rates, and minimum payments to see side-by-side comparisons and total savings.
+                </Accordion.Panel>
+              </Accordion.Item>
+              <Accordion.Item value="free">
+                <Accordion.Control>Is MyLoanMaster free to use?</Accordion.Control>
+                <Accordion.Panel>
+                  Yes. MyLoanMaster is 100% free with no hidden fees or premium tiers. All calculations run locally in your browser using JavaScript — no data is sent to any server. We're supported by non-intrusive advertising.
+                </Accordion.Panel>
+              </Accordion.Item>
+              <Accordion.Item value="privacy">
+                <Accordion.Control>Is my financial data private?</Accordion.Control>
+                <Accordion.Panel>
+                  Absolutely. All calculations happen entirely in your browser. No personal or financial data is stored, transmitted, or shared with any third party. When you close the page, your data is gone.
+                </Accordion.Panel>
+              </Accordion.Item>
+              <Accordion.Item value="mobile">
+                <Accordion.Control>Can I use MyLoanMaster on my phone?</Accordion.Control>
+                <Accordion.Panel>
+                  Yes. MyLoanMaster is fully responsive and works on all devices — desktop, tablet, and mobile. All tools adapt to your screen size for a seamless experience. Bookmark it on your phone for quick access anytime.
+                </Accordion.Panel>
+              </Accordion.Item>
+              <Accordion.Item value="accuracy">
+                <Accordion.Control>How accurate are the calculations?</Accordion.Control>
+                <Accordion.Panel>
+                  MyLoanMaster uses standard financial formulas for all calculations. While we strive for mathematical precision, results should be used for estimation and planning purposes. For exact figures, especially for legal or contractual purposes, consult a licensed financial professional.
+                </Accordion.Panel>
+              </Accordion.Item>
+            </Accordion>
+
+            <Divider my="xl" color="dark.4" />
+
+            <Title order={2} c="white" mb="sm">Terms of Service</Title>
+            <Text size="sm" c="dimmed" mb="md" lh={1.6}>
+              By using MyLoanMaster ("the Tool"), you agree to these terms. The Tool is provided "as is" and "as available". While we strive for mathematical accuracy, we make no warranties regarding the absolute correctness of the calculations provided. You agree not to hold the creators liable for any errors, omissions, or damages arising from the use of this free utility. You may use the Tool for personal, educational, and commercial needs.
+            </Text>
+
+            <Title order={2} c="white" mb="sm">Privacy Policy</Title>
+            <Text size="sm" c="dimmed" mb="xl" lh={1.6}>
+              Your privacy is important to us. MyLoanMaster processes all calculations locally within your browser using JavaScript; no personal financial data is transmitted to or stored on our servers. <strong>Third-Party Vendors:</strong> We may use Google AdSense to display advertisements. Google uses cookies to serve ads based on a user's prior visits to this website or other websites. You may opt out of personalized advertising by visiting Google's <Anchor href="https://www.google.com/settings/ads" target="_blank" c="cyan">Ads Settings</Anchor>.
+            </Text>
+
+            {/* Bottom Ad */}
+            <AdUnit adSlot="3456789012" format="auto" />
+
+            <Text ta="center" size="xs" c="dimmed" mt={50} style={{ opacity: 0.6 }}>
+              © 2026 MyLoanMaster. All rights reserved.
+            </Text>
+            <Box ta="center" mt="md" style={{ opacity: 0.8 }}>
+              <img src="https://hits.sh/myloanmaster.com.svg?label=Visits&color=3b82f6&labelColor=0f172a" alt="Visits"/>
+            </Box>
           </Box>
         </Box>
       </AppShell.Main>
