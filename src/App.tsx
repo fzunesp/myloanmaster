@@ -12,7 +12,6 @@ import RetirementCalculator from './components/RetirementCalculator';
 import AutoLoanCalculator from './components/AutoLoanCalculator';
 import RentVsBuyCalculator from './components/RentVsBuyCalculator';
 import RefinanceCalculator from './components/RefinanceCalculator';
-import AdUnit from './components/AdUnit';
 
 import About from './pages/About';
 import Terms from './pages/Terms';
@@ -133,9 +132,6 @@ export default function App() {
 
       <AppShell.Main>
         <Box maw={1000} mx="auto" pt="sm" px="md">
-          {/* Top Ad Banner */}
-          <AdUnit adSlot="1234567890" format="leaderboard" />
-
           <Routes>
             <Route path="/" element={<Navigate to="/mortgage" replace />} />
             
@@ -245,11 +241,6 @@ export default function App() {
             <Route path="/privacy" element={<Privacy />} />
             <Route path="/contact" element={<Contact />} />
           </Routes>
-
-          {/* Bottom Ad */}
-          <Box mt="xl">
-            <AdUnit adSlot="3456789012" format="auto" />
-          </Box>
         </Box>
       </AppShell.Main>
     </AppShell>
